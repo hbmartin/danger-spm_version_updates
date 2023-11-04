@@ -1,0 +1,208 @@
+# Defaults can be found here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+
+# If you don't like these settings, just delete this file :)
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/MultilineIfModifier:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+RSpec/ExampleLength:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: true
+  EnforcedStyle: always_braces
+  Exclude:
+    - spec/*.rb
+
+Layout/ClassStructure:
+  Enabled: true
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineAssignmentLayout:
+  Enabled: true
+  EnforcedStyle: same_line
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodParameterLineBreaks:
+  Enabled: true
+
+Layout/SingleLineBlockChain:
+  Enabled: true
+
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/CollectionMethods:
+  Enabled: true
+
+Style/InvertibleUnlessCondition:
+  Enabled: true
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  Exclude:
+    - spec/*.rb
+
+Style/MethodCalledOnDoEndBlock:
+  Enabled: true
+
+Style/RequireOrder:
+  Enabled: true
+
+Style/StringMethods:
+  Enabled: true
+
+Style/TopLevelMethodDefinition:
+  Enabled: true
+  Exclude:
+    - spec/*.rb
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  Enabled: true
+
+# kind_of? is a good way to check a type
+Style/ClassCheck:
+  EnforcedStyle: kind_of?
+
+# specs sometimes have useless assignments, which is fine
+Lint/UselessAssignment:
+  Exclude:
+    - '**/spec/**/*'
+
+Layout/FirstHashElementIndentation:
+  Enabled: true
+
+Layout/HashAlignment:
+  Enabled: true
+
+# HoundCI doesn't like this rule
+Layout/DotPosition:
+  Enabled: false
+
+# We allow !! as it's an easy way to convert to boolean
+Style/DoubleNegation:
+  Enabled: false
+
+# Cop supports --auto-correct.
+Lint/UnusedBlockArgument:
+  Enabled: true
+
+# We want to allow class Fastlane::Class
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 60
+
+# The %w might be confusing for new users
+Style/WordArray:
+  MinSize: 19
+
+# raise and fail are both okay
+Style/SignalException:
+  Enabled: false
+
+# Having if in the same line might not always be good
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: true
+
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 350
+
+Metrics/CyclomaticComplexity:
+  Max: 17
+
+# Configuration parameters: AllowURI, URISchemes.
+Layout/LineLength:
+  Max: 370
+
+# Configuration parameters: CountKeywordArgs.
+Metrics/ParameterLists:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 18
+
+Style/GuardClause:
+  Enabled: true
+
+Style/ConditionalAssignment:
+  Enabled: true
+
+# Better to have too much self than missing a self
+Style/RedundantSelf:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 60
+
+# We're not there yet
+Style/Documentation:
+  Enabled: false
+
+# Adds complexity
+Style/IfInsideElse:
+  Enabled: false
+
+# danger specific
+
+Style/BlockComments:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# FIXME: 25
+Metrics/BlockLength:
+  Max: 345
+  Exclude:
+    - "**/*_spec.rb"
+
+Style/MixinGrouping:
+  Enabled: true
+
+Naming/FileName:
+  Enabled: false
+
+Layout/HeredocIndentation:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    "%":  ()
+    "%i": ()
+    "%q": ()
+    "%Q": ()
+    "%r": "{}"
+    "%s": ()
+    "%w": ()
+    "%W": ()
+    "%x": ()
+
+Security/YAMLLoad:
+  Enabled: false

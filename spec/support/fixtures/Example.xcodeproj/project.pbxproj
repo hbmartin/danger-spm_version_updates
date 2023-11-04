@@ -1,0 +1,152 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+/* Begin PBXGroup section */
+		F1465EF423AA94BF0055F7C3 = {
+			isa = PBXGroup;
+			children = (
+				F1465EFF23AA94BF0055F7C3 /* Demo */,
+			);
+			sourceTree = "<group>";
+		};
+		F1465EFF23AA94BF0055F7C3 /* Demo */ = {
+			isa = PBXGroup;
+			children = ();
+			path = Demo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		F1465EF523AA94BF0055F7C3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					F1465EFC23AA94BF0055F7C3 = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
+				};
+			};
+			buildConfigurationList = F1465EF823AA94BF0055F7C3 /* Build configuration list for PBXProject "Demo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				es,
+				"zh-Hans",
+				fr,
+			);
+			mainGroup = F1465EF423AA94BF0055F7C3;
+			packageReferences = (
+				115E40CB29B6D0EC00887A45 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				11BBD37629C1571400F7A968 /* XCRemoteSwiftPackageReference "Nuke" */,
+				11B8EE072A01A5AA00201115 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+				116B05982A66192400EB92A4 /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
+				F21242692A88338C005407A6 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				1179CA742AAF97DB006EF58C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				112F9EF52ABD298C003D2CE6 /* XCRemoteSwiftPackageReference "LookingGlassUI" */,
+				CA7732012ADDBF49009F6B1B /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
+				F2C780582AEDB44700588969 /* XCRemoteSwiftPackageReference "analytics-swift" */,
+			);
+			productRefGroup = F1465EFE23AA94BF0055F7C3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = ();
+		};
+/* End PBXProject section */
+
+/* Begin XCConfigurationList section */
+		F1465EF823AA94BF0055F7C3 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = ();
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		112F9EF52ABD298C003D2CE6 /* XCRemoteSwiftPackageReference "LookingGlassUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ryanlintott/LookingGlassUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.1;
+			};
+		};
+		115E40CB29B6D0EC00887A45 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = exactVersion;
+				version = 1.13.0;
+			};
+		};
+		116B05982A66192400EB92A4 /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
+			requirement = {
+				kind = exactVersion;
+				version = 1.0.2;
+			};
+		};
+		1179CA742AAF97DB006EF58C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = exactVersion;
+				version = 10.15.0;
+			};
+		};
+		11B8EE072A01A5AA00201115 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
+			requirement = {
+				kind = exactVersion;
+				version = 5.13.0;
+			};
+		};
+		11BBD37629C1571400F7A968 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = exactVersion;
+				version = 12.1.6;
+			};
+		};
+		CA7732012ADDBF49009F6B1B /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.7.4;
+			};
+		};
+		F21242692A88338C005407A6 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = exactVersion;
+				version = 8.12.0;
+			};
+		};
+		F2C780582AEDB44700588969 /* XCRemoteSwiftPackageReference "analytics-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:hbmartin/analytics-swift.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+	};
+	rootObject = F1465EF523AA94BF0055F7C3 /* Project object */;
+}
