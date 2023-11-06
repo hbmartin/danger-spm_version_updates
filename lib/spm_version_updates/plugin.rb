@@ -144,28 +144,28 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
         ) unless quiet_above_maximum
       end
     end
-  end
 
-  def git_versions(repo_url)
-    `git ls-remote -t #{repo_url}`
-      .split("\n")
-      .map { |line| line.split("/tags/").last }
-      .filter_map { |line|
-        begin
-          Semantic::Version.new(line)
-        rescue ArgumentError
-          nil
-        end
-      }
-      .sort
-      .reverse
-  end
+    def git_versions(repo_url)
+      `git ls-remote -t #{repo_url}`
+        .split("\n")
+        .map { |line| line.split("/tags/").last }
+        .filter_map { |line|
+          begin
+            Semantic::Version.new(line)
+          rescue ArgumentError
+            nil
+          end
+        }
+        .sort
+        .reverse
+    end
 
-  def git_branch_last_commit(repo_url, branch_name)
-    `git ls-remote -h #{repo_url}`
-      .split("\n")
-      .find { |line| line.split("\trefs/heads/")[1] == branch_name }
-      .split("\trefs/heads/")[0]
+    def git_branch_last_commit(repo_url, branch_name)
+      `git ls-remote -h #{repo_url}`
+        .split("\n")
+        .find { |line| line.split("\trefs/heads/")[1] == branch_name }
+        .split("\trefs/heads/")[0]
+    end
   end
 
   class XcodeprojPathMustBeSet < StandardError

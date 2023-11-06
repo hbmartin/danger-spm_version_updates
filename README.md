@@ -5,7 +5,7 @@
 [![Gem Version](https://badge.fury.io/rb/danger-spm_version_updates.svg)](https://badge.fury.io/rb/danger-spm_version_updates)
 
 
-This is a Danger plugin to detect if there are any updates to your Swift Package Manager dependencies.
+A [Danger](https://danger.systems/ruby/) plugin to detect if there are any updates to your Swift Package Manager dependencies.
 
 It is lightweight and does not require swift to be installed on the CI where it is run. 
 
@@ -20,7 +20,6 @@ or add the following to your Gemfile:
 ```ruby
 gem "danger-spm_version_updates"
 ```
-
 
 ## Usage
 
@@ -41,7 +40,6 @@ spm_version_updates.quiet_above_maximum = false
 # A list of repositories to ignore entirely, must exactly match the URL as configured in the Xcode project
 spm_version_updates.ignore_repositories = ["https://github.com/pointfreeco/swift-snapshot-testing"]
 ```
-
 
 ## Development
 
