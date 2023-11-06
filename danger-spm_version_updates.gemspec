@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "A Danger plugin to detect if there are any updates to your Swift Package Manager dependencies."
   spec.homepage      = "https://github.com/hbmartin/danger-spm_version_updates"
   spec.license       = "MIT"
+  spec.required_ruby_version = ">= 2.7"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
