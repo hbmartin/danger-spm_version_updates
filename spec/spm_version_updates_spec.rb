@@ -38,7 +38,8 @@ module Danger
       end
 
       it "Reports some with exact version matching" do
-        allow(@my_plugin).to receive(:git_versions).and_return false
+        # TODO: mock git calls
+        # allow(@my_plugin).to receive(:git_versions).and_return false
 
         @my_plugin.xcodeproj_path = "#{File.dirname(__FILE__)}/support/fixtures/Example.xcodeproj"
         @my_plugin.check_when_exact = true
