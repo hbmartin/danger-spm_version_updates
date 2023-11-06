@@ -3,6 +3,7 @@ PATH
   specs:
     danger-spm_version_updates (0.0.1)
       danger-plugin-api (~> 1.0)
+      semantic (~> 1.6)
 
 GEM
   remote: https://rubygems.org/

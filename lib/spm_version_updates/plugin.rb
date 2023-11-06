@@ -28,13 +28,6 @@ module Danger
     # @return   [Array<String>]
     attr_accessor :ignore_repos
 
-    def initialize(dangerfile)
-      super(dangerfile)
-      @check_when_exact = false
-      @quiet_above_maximum = false
-      @ignore_repos = []
-    end
-
     # A method that you can call from your Dangerfile
     # @return   [Array<String>]
     def check_for_updates
@@ -50,7 +43,7 @@ module Danger
         .to_h { |pin| [pin["location"], pin["state"]["version"] || pin["state"]["revision"]] }
 
       remote_packages.each { |repository_url, requirement|
-        next if ignore_repos.include?(repository_url)
+        next if ignore_repos != nil && ignore_repos.include?(repository_url)
 
         name = repo_name(repository_url)
         resolved_version = resolved_versions[repository_url]
