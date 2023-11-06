@@ -16,15 +16,15 @@ module Danger
     # @return   [String]
     attr_accessor :xcodeproj_path
 
-    # Whether to check when dependencies are exact versions
+    # Whether to check when dependencies are exact versions or commits, default false
     # @return   [Boolean]
     attr_accessor :check_when_exact
 
-    # Whether to ignore version outside of the maximum version
+    # Whether to ignore version above the maximum version range, default true
     # @return   [Boolean]
     attr_accessor :quiet_above_maximum
 
-    # Whether to ignore version outside of the maximum version
+    # A list of repositories to ignore entirely, must exactly match the URL as configured in the Xcode project
     # @return   [Array<String>]
     attr_accessor :ignore_repos
 
