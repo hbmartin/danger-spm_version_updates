@@ -20,9 +20,13 @@ module Danger
     # @return   [Boolean]
     attr_accessor :check_when_exact
 
-    # Whether to ignore version above the maximum version range, default true
+    # Whether to ignore versions above the maximum version range, default true
     # @return   [Boolean]
     attr_accessor :quiet_above_maximum
+
+    # Whether to report pre-release versions, default false
+    # @return   [Boolean]
+    attr_accessor :report_pre_releases
 
     # A list of repositories to ignore entirely, must exactly match the URL as configured in the Xcode project
     # @return   [Array<String>]
@@ -43,7 +47,7 @@ module Danger
         .to_h { |pin| [pin["location"], pin["state"]["version"] || pin["state"]["revision"]] }
 
       remote_packages.each { |repository_url, requirement|
-        next if ignore_repos != nil && ignore_repos.include?(repository_url)
+        next if ignore_repos&.include?(repository_url)
 
         name = repo_name(repository_url)
         resolved_version = resolved_versions[repository_url]
@@ -110,7 +114,7 @@ Newer version of #{name}: #{available_versions.first} (but this package is set t
         warn("Newer version of #{name}: #{available_versions.first}")
       else
         newest_meeting_reqs = available_versions.find { |version|
-          version < max_version
+          version < max_version && report_pre_releases ? true : version.pre.nil?
         }
         warn("Newer version of #{name}: #{newest_meeting_reqs} ") unless newest_meeting_reqs.to_s == resolved_version
         warn(
@@ -127,7 +131,7 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
         warn("Newer version of #{name}: #{available_versions.first}")
       else
         newest_meeting_reqs = available_versions.find { |version|
-          version.send(major_or_minor) == resolved_version.send(major_or_minor)
+          version.send(major_or_minor) == resolved_version.send(major_or_minor) && report_pre_releases ? true : version.pre.nil?
         }
         warn("Newer version of #{name}: #{newest_meeting_reqs}") unless newest_meeting_reqs == resolved_version
         warn(

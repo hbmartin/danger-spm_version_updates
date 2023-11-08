@@ -50,7 +50,7 @@ module Danger
             "Newer version of pointfreeco/swift-snapshot-testing: 1.14.2 (but this package is set to exact version 1.13.0)\n",
             "Newer version of kean/Nuke: 12.2.0-beta.2 (but this package is set to exact version 12.1.6)\n",
             "Newer version of pointfreeco/swiftui-navigation: 1.0.3 (but this package is set to exact version 1.0.2)\n",
-            "Newer version of getsentry/sentry-cocoa: 8.14.2 (but this package is set to exact version 8.12.0)\n",
+            "Newer version of getsentry/sentry-cocoa: 8.15.0 (but this package is set to exact version 8.12.0)\n",
             "Newer version of firebase/firebase-ios-sdk: 10.17.0 (but this package is set to exact version 10.15.0)\n",
           ]
         )

@@ -1,9 +1,10 @@
 PATH
   remote: .
   specs:
-    danger-spm_version_updates (0.0.1)
+    danger-spm_version_updates (0.0.3)
       danger-plugin-api (~> 1.0)
       semantic (~> 1.6)
+      xcodeproj (~> 1.23)
 
 GEM
   remote: https://rubygems.org/
