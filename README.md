@@ -23,11 +23,10 @@ gem "danger-spm_version_updates"
 
 ## Usage
 
-Just add this to your Dangerfile! Note that it is required to configure the path to your Xcode project.
+Just add this to your Dangerfile! Note that it is required to pass the path to your Xcode project.
 
 ```ruby
-spm_version_updates.xcodeproj_path = ".../Example.xcodeproj"
-spm_version_updates.check_for_updates
+spm_version_updates.check_for_updates("Example.xcodeproj")
 ```
 
 You can also configure custom behaviors:

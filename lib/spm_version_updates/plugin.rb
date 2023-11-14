@@ -4,18 +4,16 @@ require "semantic"
 require "xcodeproj"
 
 module Danger
+  # A plugin for checking if there are versions upgrades available for SPM packages
+  #
   # @example Ensure people are well warned about merging on Mondays
   #
-  #          my_plugin.warn_on_mondays
+  #          spm_version_updates.check_for_updates("MyApp.xcodeproj")
   #
   # @see  Harold Martin/danger-spm_version_updates
   # @tags swift, spm, swift package manager, xcode, xcodeproj, version, updates
   #
   class DangerSpmVersionUpdates < Plugin
-    # The path to the xcodeproj file
-    # @return   [String]
-    attr_accessor :xcodeproj_path
-
     # Whether to check when dependencies are exact versions or commits, default false
     # @return   [Boolean]
     attr_accessor :check_when_exact
@@ -33,14 +31,16 @@ module Danger
     attr_accessor :ignore_repos
 
     # A method that you can call from your Dangerfile
-    # @return   [Array<String>]
-    def check_for_updates
+    # @param   [String] xcodeproj_path
+    #          The path to your Xcode project
+    # @return   [void]
+    def check_for_updates(xcodeproj_path)
       raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil?
 
       project = Xcodeproj::Project.open(xcodeproj_path)
       remote_packages = filter_remote_packages(project)
 
-      resolved_path = find_packages_resolved
+      resolved_path = find_packages_resolved(xcodeproj_path)
       raise(CouldNotFindResolvedFile) unless File.exist?(resolved_path)
 
       resolved_versions = JSON.load_file!(resolved_path)["pins"]
@@ -65,11 +65,14 @@ module Danger
         next if available_versions.first.to_s == resolved_version
 
         if kind == "exactVersion" && @check_when_exact
+          newestVersion = available_versions.find { |version|
+            report_pre_releases ? true : version.pre.nil?
+          }
           warn(
             <<-TEXT
-Newer version of #{name}: #{available_versions.first} (but this package is set to exact version #{resolved_version})
+Newer version of #{name}: #{newestVersion} (but this package is set to exact version #{resolved_version})
             TEXT
-          )
+          ) unless newestVersion.to_s == resolved_version
         elsif kind == "upToNextMajorVersion"
           warn_for_new_versions(:major, available_versions, name, resolved_version)
         elsif kind == "upToNextMinorVersion"
@@ -80,6 +83,8 @@ Newer version of #{name}: #{available_versions.first} (but this package is set t
       }
     end
 
+    # Extract a readable name for the repo given the url, generally org/repo
+    # @return [String]
     def repo_name(repo_url)
       match = repo_url.match(%r{([\w-]+/[\w-]+)(.git)?$})
 
@@ -90,6 +95,8 @@ Newer version of #{name}: #{available_versions.first} (but this package is set t
       end
     end
 
+    # Find the configured SPM dependencies in the xcodeproj
+    # @return [Hash<String, Hash>]
     def filter_remote_packages(project)
       project.objects.select { |obj|
         obj.kind_of?(Xcodeproj::Project::Object::XCRemoteSwiftPackageReference) &&
@@ -98,7 +105,9 @@ Newer version of #{name}: #{available_versions.first} (but this package is set t
         .to_h { |package| [package.repositoryURL, package.requirement] }
     end
 
-    def find_packages_resolved
+    # Find the Packages.resolved file
+    # @return [String]
+    def find_packages_resolved(xcodeproj_path)
       if Dir.exist?(xcodeproj_path.sub("xcodeproj", "xcworkspace"))
         File.join(xcodeproj_path.sub("xcodeproj", "xcworkspace"), "xcshareddata", "swiftpm", "Package.resolved")
       else
@@ -131,6 +140,8 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
         warn("Newer version of #{name}: #{available_versions.first}")
       else
         newest_meeting_reqs = available_versions.find { |version|
+          puts version
+          puts version.pre.nil?
           version.send(major_or_minor) == resolved_version.send(major_or_minor) && report_pre_releases ? true : version.pre.nil?
         }
         warn("Newer version of #{name}: #{newest_meeting_reqs}") unless newest_meeting_reqs == resolved_version
