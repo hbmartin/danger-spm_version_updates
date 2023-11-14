@@ -65,14 +65,7 @@ module Danger
         next if available_versions.first.to_s == resolved_version
 
         if kind == "exactVersion" && @check_when_exact
-          newestVersion = available_versions.find { |version|
-            report_pre_releases ? true : version.pre.nil?
-          }
-          warn(
-            <<-TEXT
-Newer version of #{name}: #{newestVersion} (but this package is set to exact version #{resolved_version})
-            TEXT
-          ) unless newestVersion.to_s == resolved_version
+          warn_for_new_versions_exact(available_versions, name, resolved_version)
         elsif kind == "upToNextMajorVersion"
           warn_for_new_versions(:major, available_versions, name, resolved_version)
         elsif kind == "upToNextMinorVersion"
@@ -117,6 +110,17 @@ Newer version of #{name}: #{newestVersion} (but this package is set to exact ver
 
     private
 
+    def warn_for_new_versions_exact(available_versions, name, resolved_version)
+      newest_version = available_versions.find { |version|
+        report_pre_releases ? true : version.pre.nil?
+      }
+      warn(
+        <<-TEXT
+Newer version of #{name}: #{newest_version} (but this package is set to exact version #{resolved_version})
+        TEXT
+      ) unless newest_version.to_s == resolved_version
+    end
+
     def warn_for_new_versions_range(available_versions, name, requirement, resolved_version)
       max_version = Semantic::Version.new(requirement["maximumVersion"])
       if available_versions.first < max_version
@@ -140,8 +144,6 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
         warn("Newer version of #{name}: #{available_versions.first}")
       else
         newest_meeting_reqs = available_versions.find { |version|
-          puts version
-          puts version.pre.nil?
           version.send(major_or_minor) == resolved_version.send(major_or_minor) && report_pre_releases ? true : version.pre.nil?
         }
         warn("Newer version of #{name}: #{newest_meeting_reqs}") unless newest_meeting_reqs == resolved_version

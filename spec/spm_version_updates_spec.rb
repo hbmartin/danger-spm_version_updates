@@ -50,25 +50,24 @@ module Danger
 
       it "Does not report pre-release versions by default" do
         allow(@my_plugin).to receive(:git_versions).and_return [
-Semantic::Version.new("12.0.0"),
-Semantic::Version.new("12.0.0-beta.1"),
-Semantic::Version.new("12.0.0-beta.2"),
-Semantic::Version.new("12.0.0-beta.3"),
-Semantic::Version.new("12.0.0-beta.4"),
-Semantic::Version.new("12.0.0-beta.5"),
-Semantic::Version.new("12.0.0-rc.1"),
-Semantic::Version.new("12.1.0"),
-Semantic::Version.new("12.1.1"),
-Semantic::Version.new("12.1.2"),
-Semantic::Version.new("12.1.3"),
-Semantic::Version.new("12.1.4"),
-Semantic::Version.new("12.1.5"),
-Semantic::Version.new("12.1.6"),
-Semantic::Version.new("12.2.0-beta.1"),
-Semantic::Version.new("12.2.0-beta.2"),
-]
-                                                                 .sort
-                                                                 .reverse
+          Semantic::Version.new("12.0.0"),
+          Semantic::Version.new("12.0.0-beta.1"),
+          Semantic::Version.new("12.0.0-beta.2"),
+          Semantic::Version.new("12.0.0-beta.3"),
+          Semantic::Version.new("12.0.0-beta.4"),
+          Semantic::Version.new("12.0.0-beta.5"),
+          Semantic::Version.new("12.0.0-rc.1"),
+          Semantic::Version.new("12.1.0"),
+          Semantic::Version.new("12.1.1"),
+          Semantic::Version.new("12.1.2"),
+          Semantic::Version.new("12.1.3"),
+          Semantic::Version.new("12.1.4"),
+          Semantic::Version.new("12.1.5"),
+          Semantic::Version.new("12.1.6"),
+          Semantic::Version.new("12.2.0-beta.1"),
+          Semantic::Version.new("12.2.0-beta.2"),
+        ].sort.reverse
+
         @my_plugin.check_when_exact = true
         @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/HasPreRelease.xcodeproj")
 
