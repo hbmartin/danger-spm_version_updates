@@ -22,53 +22,46 @@ module Danger
         allow(@my_plugin.github).to receive(:pr_json).and_return(json)
       end
 
-      it "Reports none without exact version matching" do
-        allow(@my_plugin).to receive(:git_versions).and_return false
+      it "Does not report pre-release versions by default" do
+        allow(@my_plugin).to receive(:git_versions)
+          .and_return [
+            Semantic::Version.new("12.1.6"),
+            Semantic::Version.new("12.2.0-beta.1"),
+            Semantic::Version.new("12.2.0-beta.2"),
+          ].sort.reverse
 
-        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/Example.xcodeproj")
+        @my_plugin.check_when_exact = true
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/HasPreRelease.xcodeproj")
 
         expect(@dangerfile.status_report[:warnings]).to eq([])
       end
 
-      it "Reports some with exact version matching" do
-        # TODO: mock git calls
-        allow(@my_plugin).to receive(:git_versions).and_return false
+      it "Does report new versions when exact configured" do
+        allow(@my_plugin).to receive(:git_versions)
+          .and_return [
+            Semantic::Version.new("12.1.6"),
+            Semantic::Version.new("12.1.7"),
+          ].sort.reverse
 
         @my_plugin.check_when_exact = true
-        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/Example.xcodeproj")
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/HasPreRelease.xcodeproj")
 
         expect(@dangerfile.status_report[:warnings]).to eq(
           [
-            "Newer version of pointfreeco/swift-snapshot-testing: 1.14.2 (but this package is set to exact version 1.13.0)\n",
-            "Newer version of kean/Nuke: 12.2.0-beta.2 (but this package is set to exact version 12.1.6)\n",
-            "Newer version of pointfreeco/swiftui-navigation: 1.0.3 (but this package is set to exact version 1.0.2)\n",
-            "Newer version of getsentry/sentry-cocoa: 8.15.0 (but this package is set to exact version 8.12.0)\n",
-            "Newer version of firebase/firebase-ios-sdk: 10.17.0 (but this package is set to exact version 10.15.0)\n",
+            "Newer version of kean/Nuke: 12.1.7 (but this package is set to exact version 12.1.6)\n",
           ]
         )
       end
 
-      it "Does not report pre-release versions by default" do
-        allow(@my_plugin).to receive(:git_versions).and_return [
-          Semantic::Version.new("12.0.0"),
-          Semantic::Version.new("12.0.0-beta.1"),
-          Semantic::Version.new("12.0.0-beta.2"),
-          Semantic::Version.new("12.0.0-beta.3"),
-          Semantic::Version.new("12.0.0-beta.4"),
-          Semantic::Version.new("12.0.0-beta.5"),
-          Semantic::Version.new("12.0.0-rc.1"),
-          Semantic::Version.new("12.1.0"),
-          Semantic::Version.new("12.1.1"),
-          Semantic::Version.new("12.1.2"),
-          Semantic::Version.new("12.1.3"),
-          Semantic::Version.new("12.1.4"),
-          Semantic::Version.new("12.1.5"),
-          Semantic::Version.new("12.1.6"),
-          Semantic::Version.new("12.2.0-beta.1"),
-          Semantic::Version.new("12.2.0-beta.2"),
-        ].sort.reverse
+      it "Does report pre-release versions when configured" do
+        allow(@my_plugin).to receive(:git_versions)
+          .and_return [
+            Semantic::Version.new("12.1.6"),
+            Semantic::Version.new("12.2.0-beta.2"),
+          ].sort.reverse
 
         @my_plugin.check_when_exact = true
+        @my_plugin.report_pre_releases = true
         @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/HasPreRelease.xcodeproj")
 
         expect(@dangerfile.status_report[:warnings]).to eq(

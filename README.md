@@ -39,7 +39,10 @@ spm_version_updates.check_when_exact = true
 spm_version_updates.quiet_above_maximum = false
 
 # A list of repositories to ignore entirely, must exactly match the URL as configured in the Xcode project
-spm_version_updates.ignore_repositories = ["https://github.com/pointfreeco/swift-snapshot-testing"]
+spm_version_updates.ignore_repos = ["https://github.com/pointfreeco/swift-snapshot-testing"]
+
+# Whether to report pre-release versions, default false
+spm_version_updates.report_pre_releases = true
 ```
 
 ## Development

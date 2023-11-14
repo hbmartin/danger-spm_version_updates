@@ -6,7 +6,7 @@ require "xcodeproj"
 module Danger
   # A plugin for checking if there are versions upgrades available for SPM packages
   #
-  # @example Ensure people are well warned about merging on Mondays
+  # @example Check if MyApp's SPM dependencies are up to date
   #
   #          spm_version_updates.check_for_updates("MyApp.xcodeproj")
   #
