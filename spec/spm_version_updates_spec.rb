@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require "simplecov"
+SimpleCov.start
+
 require "simplecov-cobertura"
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 
 require File.expand_path("spec_helper", __dir__)
 
 module Danger
-  SimpleCov.start
-  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
-
   describe Danger::DangerSpmVersionUpdates do
     it "is a plugin" do
       expect(described_class.new(nil)).to be_a Danger::Plugin
