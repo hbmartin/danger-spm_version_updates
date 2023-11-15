@@ -18,9 +18,9 @@ module Danger
     # @return   [Boolean]
     attr_accessor :check_when_exact
 
-    # Whether to ignore versions above the maximum version range, default true
+    # Whether to report versions above the maximum version range, default false
     # @return   [Boolean]
-    attr_accessor :quiet_above_maximum
+    attr_accessor :report_above_maximum
 
     # Whether to report pre-release versions, default false
     # @return   [Boolean]
@@ -127,34 +127,38 @@ Newer version of #{name}: #{newest_version} (but this package is set to exact ve
         warn("Newer version of #{name}: #{available_versions.first}")
       else
         newest_meeting_reqs = available_versions.find { |version|
-          version < max_version && report_pre_releases ? true : version.pre.nil?
+          version < max_version && (report_pre_releases ? true : version.pre.nil?)
         }
         warn("Newer version of #{name}: #{newest_meeting_reqs} ") unless newest_meeting_reqs.to_s == resolved_version
         warn(
           <<-TEXT
 Newest version of #{name}: #{available_versions.first} (but this package is configured up to the next #{max_version} version)
           TEXT
-        ) unless quiet_above_maximum
+        ) if report_above_maximum
       end
     end
 
     def warn_for_new_versions(major_or_minor, available_versions, name, resolved_version_string)
       resolved_version = Semantic::Version.new(resolved_version_string)
-      if available_versions.first.send(major_or_minor) == resolved_version.send(major_or_minor)
-        warn("Newer version of #{name}: #{available_versions.first}")
-      else
-        newest_meeting_reqs = available_versions.find { |version|
-          version.send(major_or_minor) == resolved_version.send(major_or_minor) && report_pre_releases ? true : version.pre.nil?
-        }
-        warn("Newer version of #{name}: #{newest_meeting_reqs}") unless newest_meeting_reqs == resolved_version
-        warn(
-          <<-TEXT
+      newest_meeting_reqs = available_versions.find { |version|
+        (version.send(major_or_minor) == resolved_version.send(major_or_minor)) && (report_pre_releases ? true : version.pre.nil?)
+      }
+
+      warn("Newer version of #{name}: #{newest_meeting_reqs}") unless newest_meeting_reqs == resolved_version
+      return unless report_above_maximum
+
+      newest_above_reqs = available_versions.find { |version|
+        report_pre_releases ? true : version.pre.nil?
+      }
+      warn(
+        <<-TEXT
 Newest version of #{name}: #{available_versions.first} (but this package is configured up to the next #{major_or_minor} version)
-          TEXT
-        ) unless quiet_above_maximum
-      end
+        TEXT
+      ) unless newest_above_reqs == newest_meeting_reqs || newest_meeting_reqs.to_s == resolved_version
     end
 
+    # Remove git call to list tags
+    # @return [Array<Semantic::Version>]
     def git_versions(repo_url)
       `git ls-remote -t #{repo_url}`
         .split("\n")

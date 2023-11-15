@@ -35,14 +35,14 @@ You can also configure custom behaviors:
 # Whether to check when dependencies are exact versions or commits, default false
 spm_version_updates.check_when_exact = true
 
-# Whether to ignore version above the maximum version range, default true
-spm_version_updates.quiet_above_maximum = false
-
-# A list of repositories to ignore entirely, must exactly match the URL as configured in the Xcode project
-spm_version_updates.ignore_repos = ["https://github.com/pointfreeco/swift-snapshot-testing"]
+# Whether to report versions above the maximum version range, default false
+spm_version_updates.report_above_maximum = true
 
 # Whether to report pre-release versions, default false
 spm_version_updates.report_pre_releases = true
+
+# A list of repositories to ignore entirely, must exactly match the URL as configured in the Xcode project
+spm_version_updates.ignore_repos = ["https://github.com/pointfreeco/swift-snapshot-testing"]
 ```
 
 ## Development

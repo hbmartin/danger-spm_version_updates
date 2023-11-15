@@ -18,9 +18,17 @@ Style/TrailingCommaInArrayLiteral:
 RSpec/ExampleLength:
   Enabled: false
 
+RSpec/RepeatedExample:
+  Enabled: false
+
 Style/BlockDelimiters:
   Enabled: true
   EnforcedStyle: always_braces
+  Exclude:
+    - spec/*.rb
+
+Metrics/ModuleLength:
+  Enabled: true
   Exclude:
     - spec/*.rb
 
