@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/hbmartin/danger-spm_version_updates/actions/workflows/lint_and_test.yml/badge.svg)](https://github.com/hbmartin/danger-spm_version_updates/actions/workflows/lint_and_test.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/hbmartin/danger-spm_version_updates/badge/main)](https://www.codefactor.io/repository/github/hbmartin/danger-spm_version_updates/overview/main)
-[![Gem Version](https://badge.fury.io/rb/danger-spm_version_updates.svg)](https://badge.fury.io/rb/danger-spm_version_updates)
+[![Gem Version](https://img.shields.io/gem/v/danger-spm_version_updates?color=D86149)](https://rubygems.org/gems/danger-spm_version_updates)
 
 
 A [Danger](https://danger.systems/ruby/) plugin to detect if there are any updates to your Swift Package Manager dependencies.
