@@ -35,16 +35,8 @@ module Danger
     #          The path to your Xcode project
     # @return   [void]
     def check_for_updates(xcodeproj_path)
-      raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil?
-
-      project = Xcodeproj::Project.open(xcodeproj_path)
-      remote_packages = filter_remote_packages(project)
-
-      resolved_path = find_packages_resolved(xcodeproj_path)
-      raise(CouldNotFindResolvedFile) unless File.exist?(resolved_path)
-
-      resolved_versions = JSON.load_file!(resolved_path)["pins"]
-        .to_h { |pin| [pin["location"], pin["state"]["version"] || pin["state"]["revision"]] }
+      remote_packages = get_remote_package(xcodeproj_path)
+      resolved_versions = get_resolved_versions(xcodeproj_path)
 
       remote_packages.each { |repository_url, requirement|
         next if ignore_repos&.include?(repository_url)
@@ -76,6 +68,28 @@ module Danger
       }
     end
 
+    # Extracts remote packages from an Xcode project
+    # @param   [String] xcodeproj_path
+    #          The path to your Xcode project
+    # @return [Hash<String, Hash>]
+    def get_remote_package(xcodeproj_path)
+      raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil?
+
+      filter_remote_packages(Xcodeproj::Project.open(xcodeproj_path))
+    end
+
+    # Extracts resolved versions from Package.resolved relative to an Xcode project
+    # @param   [String] xcodeproj_path
+    #          The path to your Xcode project
+    # @return [Hash<String, String>]
+    def get_resolved_versions(xcodeproj_path)
+      resolved_path = find_packages_resolved_file(xcodeproj_path)
+      raise(CouldNotFindResolvedFile) unless File.exist?(resolved_path)
+
+      JSON.load_file!(resolved_path)["pins"]
+        .to_h { |pin| [pin["location"], pin["state"]["version"] || pin["state"]["revision"]] }
+    end
+
     # Extract a readable name for the repo given the url, generally org/repo
     # @return [String]
     def repo_name(repo_url)
@@ -100,7 +114,7 @@ module Danger
 
     # Find the Packages.resolved file
     # @return [String]
-    def find_packages_resolved(xcodeproj_path)
+    def find_packages_resolved_file(xcodeproj_path)
       if Dir.exist?(xcodeproj_path.sub("xcodeproj", "xcworkspace"))
         File.join(xcodeproj_path.sub("xcodeproj", "xcworkspace"), "xcshareddata", "swiftpm", "Package.resolved")
       else
