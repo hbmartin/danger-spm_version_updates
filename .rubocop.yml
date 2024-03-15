@@ -1,6 +1,9 @@
 # Defaults can be found here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 
-# If you don't like these settings, just delete this file :)
+require:
+  - rubocop-rspec
+  - rubocop-rake
+  - rubocop-performance
 
 AllCops:
   TargetRubyVersion: 3.0

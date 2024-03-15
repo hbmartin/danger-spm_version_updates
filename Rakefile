@@ -19,6 +19,7 @@ desc "Run RuboCop on the lib/specs directory"
 RuboCop::RakeTask.new(:rubocop) { |task|
   task.requires << "rubocop-rspec"
   task.requires << "rubocop-rake"
+  task.requires << "rubocop-performance"
   task.patterns = ["lib/**/*.rb", "spec/**/*.rb"]
 }
 
