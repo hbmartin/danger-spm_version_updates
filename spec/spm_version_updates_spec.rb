@@ -162,6 +162,19 @@ module Danger
           ]
         )
       end
+
+      it "Does report new versions for branches" do
+        allow(@my_plugin).to receive(:git_branch_last_commit)
+          .and_return "d658f302f56abfd7a163e3b5f44de39b780a64c2"
+
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/Branch.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq(
+          [
+            "Newer commit available for kean/Nuke (main): d658f302f56abfd7a163e3b5f44de39b780a64c2",
+          ]
+        )
+      end
     end
   end
 end

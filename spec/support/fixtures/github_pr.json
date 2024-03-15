@@ -9,7 +9,7 @@
   "number": 18,
   "state": "closed",
   "locked": false,
-  "title": "add exmaple of how to mock PRs",
+  "title": "add example of how to mock PRs",
   "user": {
     "login": "wilrnh",
     "id": 555966,
@@ -37,18 +37,10 @@
   "merged_at": "2018-05-02T10:37:04Z",
   "merge_commit_sha": "39eacac22d52a2b70fc49bd8aba19eb7d2864717",
   "assignee": null,
-  "assignees": [
-
-  ],
-  "requested_reviewers": [
-
-  ],
-  "requested_teams": [
-
-  ],
-  "labels": [
-
-  ],
+  "assignees": [],
+  "requested_reviewers": [],
+  "requested_teams": [],
+  "labels": [],
   "milestone": null,
   "draft": false,
   "commits_url": "https://api.github.com/repos/danger/danger-plugin-template/pulls/18/commits",
@@ -205,9 +197,7 @@
       "allow_forking": true,
       "is_template": false,
       "web_commit_signoff_required": false,
-      "topics": [
-
-      ],
+      "topics": [],
       "visibility": "public",
       "forks": 12,
       "open_issues": 2,

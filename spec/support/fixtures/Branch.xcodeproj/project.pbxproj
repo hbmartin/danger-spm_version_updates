@@ -1,0 +1,80 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+/* Begin PBXGroup section */
+		F1465EF423AA94BF0055F7C3 = {
+			isa = PBXGroup;
+			children = (
+				F1465EFF23AA94BF0055F7C3 /* Demo */,
+			);
+			sourceTree = "<group>";
+		};
+		F1465EFF23AA94BF0055F7C3 /* Demo */ = {
+			isa = PBXGroup;
+			children = ();
+			path = Demo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		F1465EF523AA94BF0055F7C3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					F1465EFC23AA94BF0055F7C3 = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
+				};
+			};
+			buildConfigurationList = F1465EF823AA94BF0055F7C3 /* Build configuration list for PBXProject "Demo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				es,
+				"zh-Hans",
+				fr,
+			);
+			mainGroup = F1465EF423AA94BF0055F7C3;
+			packageReferences = (
+				11BBD37629C1571400F7A968 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
+			productRefGroup = F1465EFE23AA94BF0055F7C3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = ();
+		};
+/* End PBXProject section */
+
+/* Begin XCConfigurationList section */
+		F1465EF823AA94BF0055F7C3 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = ();
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		11BBD37629C1571400F7A968 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+	};
+	rootObject = F1465EF523AA94BF0055F7C3 /* Project object */;
+}

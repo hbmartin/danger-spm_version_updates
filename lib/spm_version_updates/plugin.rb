@@ -47,9 +47,10 @@ module Danger
 
         # kind can be major, minor, range, exact, branch, or commit
 
-        if kind == "branch" && check_when_exact
-          last_commit = git_branch_last_commit(repository_url, requirement["branch"])
-          warn("Newer commit available for #{name}: #{last_commit}") unless last_commit == resolved_version
+        if kind == "branch"
+          branch = requirement["branch"]
+          last_commit = git_branch_last_commit(repository_url, branch)
+          warn("Newer commit available for #{name} (#{branch}): #{last_commit}") unless last_commit == resolved_version
           next
         end
 
