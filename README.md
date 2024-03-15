@@ -14,7 +14,7 @@ Note that version 0.1.0 is the last version to support Ruby 2.7
 
 ## Installation
 
-    $ gem install danger-spm_version_updates
+`gem install danger-spm_version_updates`
 
 or add the following to your Gemfile:
 

@@ -29,6 +29,9 @@ Style/BlockDelimiters:
   EnforcedStyle: always_braces
   Exclude:
     - spec/*.rb
+    - Guardfile
+    - Rakefile
+    - danger-*.gemspec
 
 Metrics/ModuleLength:
   Enabled: true
@@ -205,7 +208,7 @@ Style/SpecialGlobalVars:
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
-    "%":  ()
+    "%": ()
     "%i": ()
     "%q": ()
     "%Q": ()
@@ -217,3 +220,282 @@ Style/PercentLiteralDelimiters:
 
 Security/YAMLLoad:
   Enabled: false
+
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+
+  # This is the default configuration file.
+
+Performance:
+  Enabled: true
+
+Performance/AncestorsInclude:
+  Description: "Use `A <= B` instead of `A.ancestors.include?(B)`."
+  Enabled: true
+
+Performance/ArraySemiInfiniteRangeSlice:
+  Description: "Identifies places where slicing arrays with semi-infinite ranges can be replaced by `Array#take` and `Array#drop`."
+  # This cop was created due to a mistake in microbenchmark.
+  # Refer https://github.com/rubocop/rubocop-performance/pull/175#issuecomment-731892717
+  Enabled: true
+
+Performance/BigDecimalWithNumericArgument:
+  Description: "Convert numeric literal to string and pass it to `BigDecimal`."
+  Enabled: true
+
+Performance/BindCall:
+  Description: "Use `bind_call(obj, args, ...)` instead of `bind(obj).call(args, ...)`."
+  Enabled: true
+
+Performance/BlockGivenWithExplicitBlock:
+  Description: "Check block argument explicitly instead of using `block_given?`."
+  Enabled: true
+
+Performance/Caller:
+  Description: >-
+    Use `caller(n..n)` instead of `caller`.
+  Enabled: true
+
+Performance/CaseWhenSplat:
+  Description: >-
+    Reordering `when` conditions with a splat to the end
+    of the `when` branches can improve performance.
+  Enabled: true
+
+Performance/Casecmp:
+  Description: >-
+    Use `casecmp` rather than `downcase ==`, `upcase ==`, `== downcase`, or `== upcase`..
+  Reference: "https://github.com/fastruby/fast-ruby#stringcasecmp-vs--stringcasecmp-vs-stringdowncase---code"
+  Enabled: true
+
+Performance/ChainArrayAllocation:
+  Description: >-
+    Instead of chaining array methods that allocate new arrays, mutate an
+    existing array.
+  Reference: "https://twitter.com/schneems/status/1034123879978029057"
+  Enabled: true
+  Exclude:
+    - spec/*.rb
+
+Performance/CollectionLiteralInLoop:
+  Description: "Extract Array and Hash literals outside of loops into local variables or constants."
+  Enabled: true
+
+Performance/CompareWithBlock:
+  Description: "Use `sort_by(&:foo)` instead of `sort { |a, b| a.foo <=> b.foo }`."
+  Enabled: true
+
+Performance/ConcurrentMonotonicTime:
+  Description: "Use `Process.clock_gettime(Process::CLOCK_MONOTONIC)` instead of `Concurrent.monotonic_time`."
+  Reference: "https://github.com/rails/rails/pull/43502"
+  Enabled: true
+
+Performance/ConstantRegexp:
+  Description: "Finds regular expressions with dynamic components that are all constants."
+  Enabled: true
+
+Performance/Count:
+  Description: >-
+    Use `count` instead of `{select,find_all,filter,reject}...{size,count,length}`.
+  # This cop has known compatibility issues with `ActiveRecord` and other
+  # frameworks. ActiveRecord's `count` ignores the block that is passed to it.
+  # For more information, see the documentation in the cop itself.
+  Enabled: true
+
+Performance/DeletePrefix:
+  Description: "Use `delete_prefix` instead of `gsub`."
+  Enabled: true
+
+Performance/DeleteSuffix:
+  Description: "Use `delete_suffix` instead of `gsub`."
+  Enabled: true
+
+Performance/Detect:
+  Description: >-
+    Use `detect` instead of `select.first`, `find_all.first`, `filter.first`,
+    `select.last`, `find_all.last`, and `filter.last`.
+  Reference: "https://github.com/fastruby/fast-ruby#enumerabledetect-vs-enumerableselectfirst-code"
+  # This cop has known compatibility issues with `ActiveRecord` and other
+  # frameworks. `ActiveRecord` does not implement a `detect` method and `find`
+  # has its own meaning. Correcting `ActiveRecord` methods with this cop
+  # should be considered unsafe.
+  Enabled: true
+
+Performance/DoubleStartEndWith:
+  Description: >-
+    Use `str.{start,end}_with?(x, ..., y, ...)`
+    instead of `str.{start,end}_with?(x, ...) || str.{start,end}_with?(y, ...)`.
+  Enabled: true
+
+Performance/EndWith:
+  Description: "Use `end_with?` instead of a regex match anchored to the end of a string."
+  Reference: "https://github.com/fastruby/fast-ruby#stringmatch-vs-stringmatch-vs-stringstart_withstringend_with-code-start-code-end"
+  # This will change to a new method call which isn't guaranteed to be on the
+  # object. Switching these methods has to be done with knowledge of the types
+  # of the variables which rubocop doesn't have.
+  Enabled: true
+
+Performance/FixedSize:
+  Description: "Do not compute the size of statically sized objects except in constants."
+  Enabled: true
+
+Performance/FlatMap:
+  Description: >-
+    Use `Enumerable#flat_map`
+    instead of `Enumerable#map...Array#flatten(1)`
+    or `Enumerable#collect..Array#flatten(1)`.
+  Reference: "https://github.com/fastruby/fast-ruby#enumerablemaparrayflatten-vs-enumerableflat_map-code"
+  Enabled: true
+  EnabledForFlattenWithoutParams: false
+  # If enabled, this cop will warn about usages of
+  # `flatten` being called without any parameters.
+  # This can be dangerous since `flat_map` will only flatten 1 level, and
+  # `flatten` without any parameters can flatten multiple levels.
+
+Performance/InefficientHashSearch:
+  Description: "Use `key?` or `value?` instead of `keys.include?` or `values.include?`."
+  Reference: "https://github.com/fastruby/fast-ruby#hashkey-instead-of-hashkeysinclude-code"
+  Enabled: true
+
+Performance/IoReadlines:
+  Description: "Use `IO.each_line` (`IO#each_line`) instead of `IO.readlines` (`IO#readlines`)."
+  Reference: "https://docs.gitlab.com/ee/development/performance.html#reading-from-files-and-other-data-sources"
+  Enabled: true
+
+Performance/MapCompact:
+  Description: "Use `filter_map` instead of `collection.map(&:do_something).compact`."
+  Enabled: true
+
+Performance/MapMethodChain:
+  Description: "Checks if the `map` method is used in a chain."
+  Enabled: true
+
+Performance/MethodObjectAsBlock:
+  Description: "Use block explicitly instead of block-passing a method object."
+  Reference: "https://github.com/fastruby/fast-ruby#normal-way-to-apply-method-vs-method-code"
+  Enabled: true
+
+Performance/OpenStruct:
+  Description: "Use `Struct` instead of `OpenStruct`."
+  Enabled: true
+
+Performance/RangeInclude:
+  Description: "Use `Range#cover?` instead of `Range#include?` (or `Range#member?`)."
+  Reference: "https://github.com/fastruby/fast-ruby#cover-vs-include-code"
+  Enabled: true
+
+Performance/RedundantBlockCall:
+  Description: "Use `yield` instead of `block.call`."
+  Reference: "https://github.com/fastruby/fast-ruby#proccall-and-block-arguments-vs-yieldcode"
+  Enabled: true
+
+Performance/RedundantEqualityComparisonBlock:
+  Description: >-
+    Checks for uses `Enumerable#all?`, `Enumerable#any?`, `Enumerable#one?`,
+    or `Enumerable#none?` are compared with `===` or similar methods in block.
+  Reference: "https://github.com/rails/rails/pull/41363"
+  Enabled: true
+
+Performance/RedundantMatch:
+  Description: >-
+    Use `=~` instead of `String#match` or `Regexp#match` in a context where the
+    returned `MatchData` is not needed.
+  Enabled: true
+
+Performance/RedundantMerge:
+  Description: "Use Hash#[]=, rather than Hash#merge! with a single key-value pair."
+  Reference: "https://github.com/fastruby/fast-ruby#hashmerge-vs-hash-code"
+  Enabled: true
+  # Max number of key-value pairs to consider an offense
+  MaxKeyValuePairs: 2
+
+Performance/RedundantSortBlock:
+  Description: "Use `sort` instead of `sort { |a, b| a <=> b }`."
+  Enabled: true
+
+Performance/RedundantSplitRegexpArgument:
+  Description: "Identifies places where `split` argument can be replaced from a deterministic regexp to a string."
+  Enabled: true
+
+Performance/RedundantStringChars:
+  Description: "Checks for redundant `String#chars`."
+  Enabled: true
+
+Performance/RegexpMatch:
+  Description: >-
+    Use `match?` instead of `Regexp#match`, `String#match`, `Symbol#match`,
+    `Regexp#===`, or `=~` when `MatchData` is not used.
+  Reference: "https://github.com/fastruby/fast-ruby#regexp-vs-regexpmatch-vs-regexpmatch-vs-stringmatch-vs-string-vs-stringmatch-code-"
+  Enabled: true
+
+Performance/ReverseEach:
+  Description: "Use `reverse_each` instead of `reverse.each`."
+  Reference: "https://github.com/fastruby/fast-ruby#enumerablereverseeach-vs-enumerablereverse_each-code"
+  Enabled: true
+
+Performance/ReverseFirst:
+  Description: "Use `last(n).reverse` instead of `reverse.first(n)`."
+  Enabled: true
+
+Performance/SelectMap:
+  Description: "Use `filter_map` instead of `ary.select(&:foo).map(&:bar)`."
+  Enabled: true
+
+Performance/Size:
+  Description: >-
+    Use `size` instead of `count` for counting
+    the number of elements in `Array` and `Hash`.
+  Reference: "https://github.com/fastruby/fast-ruby#arraylength-vs-arraysize-vs-arraycount-code"
+  Enabled: true
+
+Performance/SortReverse:
+  Description: "Use `sort.reverse` instead of `sort { |a, b| b <=> a }`."
+  Enabled: true
+
+Performance/Squeeze:
+  Description: "Use `squeeze('a')` instead of `gsub(/a+/, 'a')`."
+  Reference: "https://github.com/fastruby/fast-ruby#remove-extra-spaces-or-other-contiguous-characters-code"
+  Enabled: true
+
+Performance/StartWith:
+  Description: "Use `start_with?` instead of a regex match anchored to the beginning of a string."
+  Reference: "https://github.com/fastruby/fast-ruby#stringmatch-vs-stringmatch-vs-stringstart_withstringend_with-code-start-code-end"
+  # This will change to a new method call which isn't guaranteed to be on the
+  # object. Switching these methods has to be done with knowledge of the types
+  # of the variables which rubocop doesn't have.
+  Enabled: true
+  SafeMultiline: true
+
+Performance/StringIdentifierArgument:
+  Description: "Use symbol identifier argument instead of string identifier argument."
+  Enabled: true
+
+Performance/StringInclude:
+  Description: "Use `String#include?` instead of a regex match with literal-only pattern."
+  Enabled: true
+
+Performance/StringReplacement:
+  Description: >-
+    Use `tr` instead of `gsub` when you are replacing the same
+    number of characters. Use `delete` instead of `gsub` when
+    you are deleting characters.
+  Reference: "https://github.com/fastruby/fast-ruby#stringgsub-vs-stringtr-code"
+  Enabled: true
+
+Performance/Sum:
+  Description: "Use `sum` instead of a custom array summation."
+  Reference: "https://blog.bigbinary.com/2016/11/02/ruby-2-4-introduces-enumerable-sum.html"
+  Enabled: true
+
+Performance/TimesMap:
+  Description: "Checks for .times.map calls."
+  Enabled: true
+  # See https://github.com/rubocop/rubocop/issues/4658
+
+Performance/UnfreezeString:
+  Description: "Use unary plus to get an unfrozen string literal."
+  Enabled: true
+
+Performance/UriDefaultParser:
+  Description: "Use `URI::DEFAULT_PARSER` instead of `URI::Parser.new`."
+  Enabled: true

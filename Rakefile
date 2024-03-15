@@ -9,6 +9,7 @@ RSpec::Core::RakeTask.new(:specs)
 
 task default: :specs
 
+desc "Run all test and lint tasks"
 task :spec do
   Rake::Task["specs"].invoke
   Rake::Task["rubocop"].invoke

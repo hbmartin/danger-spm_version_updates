@@ -174,7 +174,7 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
     # Remove git call to list tags
     # @return [Array<Semantic::Version>]
     def git_versions(repo_url)
-      `git ls-remote -t #{repo_url}`
+      versions = `git ls-remote -t #{repo_url}`
         .split("\n")
         .map { |line| line.split("/tags/").last }
         .filter_map { |line|
@@ -184,8 +184,9 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
             nil
           end
         }
-        .sort
-        .reverse
+      versions.sort!
+      versions.reverse!
+      versions
     end
 
     def git_branch_last_commit(repo_url, branch_name)
