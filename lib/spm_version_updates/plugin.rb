@@ -62,7 +62,7 @@ module Danger
           warn_for_new_versions(:major, available_versions, name, resolved_version)
         elsif kind == "upToNextMinorVersion"
           warn_for_new_versions(:minor, available_versions, name, resolved_version)
-        elsif kind == "range"
+        elsif kind == "versionRange"
           warn_for_new_versions_range(available_versions, name, requirement, resolved_version)
         end
       }
@@ -143,7 +143,7 @@ Newer version of #{name}: #{newest_version} (but this package is set to exact ve
         newest_meeting_reqs = available_versions.find { |version|
           version < max_version && (report_pre_releases ? true : version.pre.nil?)
         }
-        warn("Newer version of #{name}: #{newest_meeting_reqs} ") unless newest_meeting_reqs.to_s == resolved_version
+        warn("Newer version of #{name}: #{newest_meeting_reqs}") unless newest_meeting_reqs.to_s == resolved_version
         warn(
           <<-TEXT
 Newest version of #{name}: #{available_versions.first} (but this package is configured up to the next #{max_version} version)

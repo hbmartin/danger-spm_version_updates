@@ -17,7 +17,7 @@ jobs:
           ruby-version: 3.2
           bundler-cache: true
       - name: Build HTML docs
-        run: yard
+        run: bundle exec yard
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:

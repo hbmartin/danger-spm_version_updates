@@ -145,6 +145,23 @@ module Danger
 
         expect(@dangerfile.status_report[:warnings]).to eq(["Newest version of kean/Nuke: 13.0.0 (but this package is configured up to the next major version)\n"])
       end
+
+      it "Does report new versions for ranges" do
+        allow(@my_plugin).to receive(:git_versions)
+          .and_return [
+            Semantic::Version.new("13.0.0"),
+            Semantic::Version.new("12.1.6"),
+            Semantic::Version.new("12.1.7"),
+          ].sort.reverse
+
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/VersionRange.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq(
+          [
+            "Newer version of kean/Nuke: 12.1.7",
+          ]
+        )
+      end
     end
   end
 end
