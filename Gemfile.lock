@@ -212,7 +212,7 @@ GEM
       colored2 (~> 3.1)
       nanaimo (~> 0.3.0)
       rexml (~> 3.2.4)
-    yard (0.9.34)
+    yard (0.9.36)
     zeitwerk (2.6.13)
 
 PLATFORMS
@@ -238,7 +238,7 @@ DEPENDENCIES
   simplecov (~> 0.22)
   simplecov-cobertura (~> 2.1)
   xcodeproj (~> 1.24)
-  yard
+  yard (~> 0.9.36)
 
 BUNDLED WITH
    2.5.6

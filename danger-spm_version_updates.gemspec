@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency("rubocop", "~> 1.62")
   spec.add_development_dependency("rubocop-rake")
   spec.add_development_dependency("rubocop-rspec")
-  spec.add_development_dependency("yard")
+  spec.add_development_dependency("yard", "~> 0.9.36")
 
   # Makes testing easy via `bundle exec guard`
   spec.add_development_dependency("guard", "~> 2.16")
