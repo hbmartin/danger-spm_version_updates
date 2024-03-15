@@ -6,7 +6,4 @@ source "https://rubygems.org"
 gemspec
 
 gem "semantic", "~> 1.6"
-gem "xcodeproj", "~> 1.23"
-
-gem "simplecov"
-gem "simplecov-cobertura"
+gem "xcodeproj", "~> 1.24"
