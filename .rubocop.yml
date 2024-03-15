@@ -3,7 +3,7 @@
 # If you don't like these settings, just delete this file :)
 
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
   NewCops: enable
 
 Style/MultilineBlockChain:
@@ -93,7 +93,7 @@ Style/ClassCheck:
 # specs sometimes have useless assignments, which is fine
 Lint/UselessAssignment:
   Exclude:
-    - '**/spec/**/*'
+    - "**/spec/**/*"
 
 Layout/FirstHashElementIndentation:
   Enabled: true

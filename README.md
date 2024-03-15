@@ -6,18 +6,17 @@
 [![codecov](https://codecov.io/gh/hbmartin/danger-spm_version_updates/graph/badge.svg?token=eXgUoWlvP7)](https://codecov.io/gh/hbmartin/danger-spm_version_updates)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-
 A [Danger](https://danger.systems/ruby/) plugin to detect if there are any updates to your Swift Package Manager dependencies.
 
-It is lightweight and does not require swift to be installed on the CI where it is run. 
+It's fast, lightweight, and does not require swift to be installed on the CI where it is run.
 
+Note that version 0.1.0 is the last version to support Ruby 2.7
 
 ## Installation
 
     $ gem install danger-spm_version_updates
 
 or add the following to your Gemfile:
-
 
 ```ruby
 gem "danger-spm_version_updates"
@@ -55,10 +54,9 @@ spm_version_updates.ignore_repos = ["https://github.com/pointfreeco/swift-snapsh
 4. Use `bundle exec guard` to automatically have tests run as you make changes.
 5. Make your changes.
 
-
 ## Authors
 
-* [Harold Martin](https://www.linkedin.com/in/harold-martin-98526971/) - harold.martin at gmail
+- [Harold Martin](https://www.linkedin.com/in/harold-martin-98526971/) - harold.martin at gmail
 
 ## Legal
 
