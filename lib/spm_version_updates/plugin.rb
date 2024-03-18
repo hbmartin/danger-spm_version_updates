@@ -4,13 +4,11 @@ require "semantic"
 require "xcodeproj"
 
 module Danger
-  # A plugin for checking if there are versions upgrades available for SPM packages
+  # A Danger plugin for checking if there are versions upgrades available for SPM dependencies
   #
   # @example Check if MyApp's SPM dependencies are up to date
-  #
   #          spm_version_updates.check_for_updates("MyApp.xcodeproj")
   #
-  # @see  Harold Martin/danger-spm_version_updates
   # @tags swift, spm, swift package manager, xcode, xcodeproj, version, updates
   #
   class DangerSpmVersionUpdates < Plugin
