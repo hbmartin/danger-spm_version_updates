@@ -9,6 +9,7 @@ module Danger
   # @example Check if MyApp's SPM dependencies are up to date
   #          spm_version_updates.check_for_updates("MyApp.xcodeproj")
   #
+  # @see  hbmartin/danger-spm_version_updates
   # @tags swift, spm, swift package manager, xcode, xcodeproj, version, updates
   #
   class DangerSpmVersionUpdates < Plugin
@@ -173,7 +174,9 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
       ) unless newest_above_reqs == newest_meeting_reqs || newest_meeting_reqs.to_s == resolved_version
     end
 
-    # Remove git call to list tags
+    # Call git to list tags
+    # @param   [String] repo_url
+    #          The URL of the dependency's repository
     # @return [Array<Semantic::Version>]
     def git_versions(repo_url)
       versions = `git ls-remote -t #{repo_url}`
@@ -191,6 +194,12 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
       versions
     end
 
+    # Calkl git to find the last commit on a branch
+    # @param   [String] repo_url
+    #          The URL of the dependency's repository
+    # @param   [String] branch_name
+    #          The name of the branch on which to find the last commit
+    # @return [String]
     def git_branch_last_commit(repo_url, branch_name)
       `git ls-remote -h #{repo_url}`
         .split("\n")

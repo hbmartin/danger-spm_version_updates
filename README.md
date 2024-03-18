@@ -15,7 +15,9 @@ Note that version 0.1.0 is the last version to support Ruby 2.7
 
 ## Installation
 
-`gem install danger-spm_version_updates`
+```sh
+gem install danger-spm_version_updates
+```
 
 or add the following to your Gemfile:
 
@@ -63,7 +65,7 @@ spm_version_updates.ignore_repos = ["https://github.com/pointfreeco/swift-snapsh
 
 Swift and the Swift logo are trademarks of Apple Inc.
 
-Copyright (c) 2023 Harold Martin <harold.martin@gmail.com>
+Copyright (c) 2023 Harold Martin
 
 MIT License
 
