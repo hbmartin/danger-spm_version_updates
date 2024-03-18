@@ -175,6 +175,20 @@ module Danger
           ]
         )
       end
+
+      it "Does not crash or warn when resolved version is missing from xcodeproj" do
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoResolvedVersion.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq([])
+      end
+
+      it "Does print to stderr when resolved version is missing from xcodeproj" do
+        expect {
+          @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoResolvedVersion.xcodeproj")
+        }.to output(
+          %r{Unable to locate the current version for kean/Nuke.*}
+        ).to_stderr
+      end
     end
   end
 end

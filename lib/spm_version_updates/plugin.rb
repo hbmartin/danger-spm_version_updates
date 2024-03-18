@@ -45,7 +45,10 @@ module Danger
         resolved_version = resolved_versions[repository_url]
         kind = requirement["kind"]
 
-        # kind can be major, minor, range, exact, branch, or commit
+        if resolved_version.nil?
+          $stderr.puts("Unable to locate the current version for #{name} (#{repository_url}) in #{find_packages_resolved_file(xcodeproj_path)}")
+          next
+        end
 
         if kind == "branch"
           branch = requirement["branch"]

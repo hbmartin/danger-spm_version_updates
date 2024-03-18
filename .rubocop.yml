@@ -18,6 +18,13 @@ Style/MultilineIfModifier:
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
+Style/StderrPuts:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: true
+  EnforcedStyle: slashes
+
 RSpec/ExampleLength:
   Enabled: false
 

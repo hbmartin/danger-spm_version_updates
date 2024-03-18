@@ -3,7 +3,7 @@ name: Publish Yard HTML to GitHub Pages
 on:
   push:
     tags:
-      - "*"
+      - v*
   workflow_dispatch:
 
 jobs:
