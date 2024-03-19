@@ -207,7 +207,7 @@ module Danger
         )
       end
 
-      it "Raised error when no Packages.resolved are present" do
+      it "Raises error when no Packages.resolved are present" do
         expect {
           @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoPackagesResolved.xcodeproj")
         }.to raise_error(CouldNotFindResolvedFile)
