@@ -189,6 +189,29 @@ module Danger
           %r{Unable to locate the current version for kean/Nuke.*}
         ).to_stderr
       end
+
+      it "Does report new versions for both possible Package.resolved locations" do
+        allow(@my_plugin).to receive(:git_versions)
+          .and_return [
+            Semantic::Version.new("12.1.6"),
+            Semantic::Version.new("12.1.7"),
+          ].sort.reverse
+
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/AlsoHasXcworkspace.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq(
+          [
+            "Newer version of kean/Nuke: 12.1.7",
+            "Newer version of Something/Else: 12.1.7",
+          ]
+        )
+      end
+
+      it "Raises error when no Packages.resolved are present" do
+        expect {
+          @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoPackagesResolved.xcodeproj")
+        }.to raise_error(CouldNotFindResolvedFile)
+      end
     end
   end
 end
