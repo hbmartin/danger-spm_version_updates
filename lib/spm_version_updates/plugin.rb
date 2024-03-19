@@ -45,7 +45,7 @@ module Danger
         kind = requirement["kind"]
 
         if resolved_version.nil?
-          $stderr.puts("Unable to locate the current version for #{name} (#{repository_url}) in #{find_packages_resolved_file(xcodeproj_path)}")
+          $stderr.puts("Unable to locate the current version for #{name} (#{repository_url})")
           next
         end
 
@@ -86,11 +86,19 @@ module Danger
     #          The path to your Xcode project
     # @return [Hash<String, String>]
     def get_resolved_versions(xcodeproj_path)
-      resolved_path = find_packages_resolved_file(xcodeproj_path)
-      raise(CouldNotFindResolvedFile) unless File.exist?(resolved_path)
+      resolved_paths = find_packages_resolved_file(xcodeproj_path)
+      raise(CouldNotFindResolvedFile) if resolved_paths.empty?
 
-      JSON.load_file!(resolved_path)["pins"]
-        .to_h { |pin| [pin["location"], pin["state"]["version"] || pin["state"]["revision"]] }
+      resolved_versions = {}
+      resolved_paths.each { |resolved_path|
+        resolved_versions.merge!(
+          JSON.load_file!(resolved_path)["pins"]
+            .to_h { |pin|
+              [pin["location"], pin["state"]["version"] || pin["state"]["revision"]]
+            }
+        )
+      }
+      resolved_versions
     end
 
     # Extract a readable name for the repo given the url, generally org/repo
@@ -116,13 +124,17 @@ module Danger
     end
 
     # Find the Packages.resolved file
-    # @return [String]
+    # @return [Array<String>]
     def find_packages_resolved_file(xcodeproj_path)
+      locations = []
       if Dir.exist?(xcodeproj_path.sub("xcodeproj", "xcworkspace"))
-        File.join(xcodeproj_path.sub("xcodeproj", "xcworkspace"), "xcshareddata", "swiftpm", "Package.resolved")
-      else
-        File.join(xcodeproj_path, "project.xcworkspace", "xcshareddata", "swiftpm", "Package.resolved")
+        path = File.join(xcodeproj_path.sub("xcodeproj", "xcworkspace"), "xcshareddata", "swiftpm", "Package.resolved")
+        locations << path if File.exist?(path)
       end
+      path = File.join(xcodeproj_path, "project.xcworkspace", "xcshareddata", "swiftpm", "Package.resolved")
+      locations << path if File.exist?(path)
+      $stderr.puts("Searching for resolved packages in: #{locations}")
+      locations
     end
 
     private
