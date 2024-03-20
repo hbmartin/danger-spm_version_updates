@@ -34,11 +34,14 @@ module Danger
     #          The path to your Xcode project
     # @return   [void]
     def check_for_updates(xcodeproj_path)
-      remote_packages = get_remote_package(xcodeproj_path)
+      raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil?
+
+      remote_packages = filter_remote_packages(Xcodeproj::Project.open(xcodeproj_path))
       resolved_versions = get_resolved_versions(xcodeproj_path)
       $stderr.puts("Found resolved versions for #{resolved_versions.size} packages")
-
+      puts(resolved_versions)
       remote_packages.each { |repository_url, requirement|
+        puts(repository_url)
         next if ignore_repos&.include?(repository_url)
 
         name = repo_name(repository_url)
@@ -72,16 +75,6 @@ module Danger
       }
     end
 
-    # Extracts remote packages from an Xcode project
-    # @param   [String] xcodeproj_path
-    #          The path to your Xcode project
-    # @return [Hash<String, Hash>]
-    def get_remote_package(xcodeproj_path)
-      raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil?
-
-      filter_remote_packages(Xcodeproj::Project.open(xcodeproj_path))
-    end
-
     # Extracts resolved versions from Package.resolved relative to an Xcode project
     # @param   [String] xcodeproj_path
     #          The path to your Xcode project
@@ -93,7 +86,7 @@ module Danger
       resolved_versions = resolved_paths.map { |resolved_path|
         JSON.load_file!(resolved_path)["pins"]
           .to_h { |pin|
-            [pin["location"], pin["state"]["version"] || pin["state"]["revision"]]
+            [trim_repo_url(pin["location"]), pin["state"]["version"] || pin["state"]["revision"]]
           }
       }
       resolved_versions.reduce(:merge!)
@@ -112,13 +105,25 @@ module Danger
     end
 
     # Find the configured SPM dependencies in the xcodeproj
+    # @param   [Xcodeproj::Project::Object] project
+    #          The Xcodeproj object of the project
     # @return [Hash<String, Hash>]
     def filter_remote_packages(project)
       project.objects.select { |obj|
         obj.kind_of?(Xcodeproj::Project::Object::XCRemoteSwiftPackageReference) &&
           obj.requirement["kind"] != "commit"
       }
-        .to_h { |package| [package.repositoryURL, package.requirement] }
+        .to_h { |package|
+          [trim_repo_url(package.repositoryURL), package.requirement]
+        }
+    end
+
+    # Removes protocol and trailing .git from a repo URL
+    # @param   [String] repo_url
+    #          The URL of the repository
+    # @return [String]
+    def trim_repo_url(repo_url)
+      repo_url.split("://").last.gsub(/\.git$/, "")
     end
 
     # Find the Packages.resolved file

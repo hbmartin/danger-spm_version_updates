@@ -212,6 +212,22 @@ module Danger
           @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoPackagesResolved.xcodeproj")
         }.to raise_error(CouldNotFindResolvedFile)
       end
+
+      it "Does report new versions with ssh and/or .git URLs" do
+        allow(@my_plugin).to receive(:git_versions)
+          .and_return [
+            Semantic::Version.new("12.1.6"),
+            Semantic::Version.new("12.1.7"),
+          ].sort.reverse
+
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/MangledUrl.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq(
+          [
+            "Newer version of kean/Nuke: 12.1.7",
+          ]
+        )
+      end
     end
   end
 end
