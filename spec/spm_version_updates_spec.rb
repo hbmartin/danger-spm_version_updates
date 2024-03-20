@@ -39,7 +39,7 @@ module Danger
         expect(@dangerfile.status_report[:warnings]).to eq([])
       end
 
-      it "Does report new versions for exact versions when configured" do
+      it "Reports new versions for exact versions when configured" do
         allow(@my_plugin).to receive(:git_versions)
           .and_return [
             Semantic::Version.new("12.1.6"),
@@ -56,7 +56,7 @@ module Danger
         )
       end
 
-      it "Does report pre-release versions for exact versions when configured" do
+      it "Reports pre-release versions for exact versions when configured" do
         allow(@my_plugin).to receive(:git_versions)
           .and_return [
             Semantic::Version.new("12.1.6"),
@@ -74,7 +74,7 @@ module Danger
         )
       end
 
-      it "Does report new versions for up to next major" do
+      it "Reports new versions for up to next major" do
         allow(@my_plugin).to receive(:git_versions)
           .and_return [
             Semantic::Version.new("12.1.6"),
@@ -146,7 +146,7 @@ module Danger
         expect(@dangerfile.status_report[:warnings]).to eq(["Newest version of kean/Nuke: 13.0.0 (but this package is configured up to the next major version)\n"])
       end
 
-      it "Does report new versions for ranges" do
+      it "Reports new versions for ranges" do
         allow(@my_plugin).to receive(:git_versions)
           .and_return [
             Semantic::Version.new("13.0.0"),
@@ -163,7 +163,7 @@ module Danger
         )
       end
 
-      it "Does report new versions for branches" do
+      it "Reports new versions for branches" do
         allow(@my_plugin).to receive(:git_branch_last_commit)
           .and_return "d658f302f56abfd7a163e3b5f44de39b780a64c2"
 
@@ -190,7 +190,7 @@ module Danger
         ).to_stderr
       end
 
-      it "Does report new versions for both possible Package.resolved locations" do
+      it "Reports new versions for both possible Package.resolved locations" do
         allow(@my_plugin).to receive(:git_versions)
           .and_return [
             Semantic::Version.new("12.1.6"),
@@ -213,7 +213,7 @@ module Danger
         }.to raise_error(CouldNotFindResolvedFile)
       end
 
-      it "Does report new versions with ssh and/or .git URLs" do
+      it "Reports new versions with ssh and/or .git URLs" do
         allow(@my_plugin).to receive(:git_versions)
           .and_return [
             Semantic::Version.new("12.1.6"),
@@ -227,6 +227,19 @@ module Danger
             "Newer version of kean/Nuke: 12.1.7",
           ]
         )
+      end
+
+      it "Does not report new versions when repo was ignored" do
+        allow(@my_plugin).to receive(:git_versions)
+          .and_return [
+            Semantic::Version.new("12.1.6"),
+            Semantic::Version.new("12.1.7"),
+          ].sort.reverse
+
+        @my_plugin.ignore_repos = ["ssh://github.com/kean/Nuke.git"]
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/UpToNextMajor.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq([])
       end
     end
   end

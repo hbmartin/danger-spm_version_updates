@@ -25,24 +25,26 @@ module Danger
     # @return   [Boolean]
     attr_accessor :report_pre_releases
 
-    # A list of repositories to ignore entirely, must exactly match the URL as configured in the Xcode project
+    # A list of repository URLs for packages to ignore entirely
     # @return   [Array<String>]
     attr_accessor :ignore_repos
 
     # A method that you can call from your Dangerfile
     # @param   [String] xcodeproj_path
     #          The path to your Xcode project
+    # @raise [XcodeprojPathMustBeSet] if the xcodeproj_path is blank
     # @return   [void]
     def check_for_updates(xcodeproj_path)
-      raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil?
+      raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil? || xcodeproj_path.empty?
 
       remote_packages = filter_remote_packages(Xcodeproj::Project.open(xcodeproj_path))
       resolved_versions = get_resolved_versions(xcodeproj_path)
       $stderr.puts("Found resolved versions for #{resolved_versions.size} packages")
-      puts(resolved_versions)
+
+      self.ignore_repos = self.ignore_repos&.map! { |repo| trim_repo_url(repo) }
+
       remote_packages.each { |repository_url, requirement|
-        puts(repository_url)
-        next if ignore_repos&.include?(repository_url)
+        next if self.ignore_repos&.include?(repository_url)
 
         name = repo_name(repository_url)
         resolved_version = resolved_versions[repository_url]
@@ -78,6 +80,7 @@ module Danger
     # Extracts resolved versions from Package.resolved relative to an Xcode project
     # @param   [String] xcodeproj_path
     #          The path to your Xcode project
+    # @raise [CouldNotFindResolvedFile] if no Package.resolved files were found
     # @return [Hash<String, String>]
     def get_resolved_versions(xcodeproj_path)
       resolved_paths = find_packages_resolved_file(xcodeproj_path)
