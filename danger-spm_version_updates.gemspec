@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'rake'
 
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -16,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 3.0"
 
-  spec.files         = FileList['lib/*', '[A-Z]*'].to_a
+  spec.files         = Dir['lib/*'] + Dir['lib/**/*'] + Dir['*']
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
   spec.metadata["rubygems_mfa_required"] = "true"
