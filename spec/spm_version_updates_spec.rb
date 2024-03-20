@@ -247,6 +247,42 @@ module Danger
 
         expect(@dangerfile.status_report[:warnings]).to eq([])
       end
+
+      it "Transforms git tags into version list" do
+        allow_any_instance_of(Kernel).to receive(:`)
+          .and_return <<-TEXT
+From git@github.com:hbmartin/danger-spm_version_updates.git
+4230ed95952b244d9d0b922d2b460fb73d985e02	refs/tags/0.1.0
+97a139d985c2edd233017f1bb26138eea25958de	refs/tags/2.0.0
+          TEXT
+
+        expect(Git.version_tags("https://github.com/hbmartin/danger-spm_version_updates")).to eq(
+          [
+            Semantic::Version.new("2.0.0"),
+            Semantic::Version.new("0.1.0"),
+          ]
+        )
+      end
+
+      it "Gathers latest commit on git branch" do
+        allow_any_instance_of(Kernel).to receive(:`)
+          .and_return <<-TEXT
+From git@github.com:hbmartin/danger-spm_version_updates.git
+5e5c3f78ff25e7678ed7d3b25d7c60eeeee47e25	HEAD
+8c1a26f6c3822dc62e0feb655e0152e4f81e8ab3	refs/heads/hm/check-for-mangled-urls
+5e5c3f78ff25e7678ed7d3b25d7c60eeeee47e25	refs/heads/main
+ae5afe00b2d7098403dd9d87a3780cca4b4b285c	refs/pull/2/head
+8c1a26f6c3822dc62e0feb655e0152e4f81e8ab3	refs/pull/3/head
+a1fd1d464a6e5a76136d23b8e66a5a8c422dbeea	refs/pull/3/merge
+4230ed95952b244d9d0b922d2b460fb73d985e02	refs/tags/0.1.0
+97a139d985c2edd233017f1bb26138eea25958de	refs/tags/v0.1.1
+5ffb986dfbb63f90de8f9854f3d0bc35eff37c56	refs/tags/v0.1.2
+          TEXT
+
+        expect(Git.branch_last_commit("https://github.com/hbmartin/danger-spm_version_updates", "main")).to eq(
+          "5e5c3f78ff25e7678ed7d3b25d7c60eeeee47e25"
+        )
+      end
     end
   end
 end

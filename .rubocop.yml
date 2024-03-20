@@ -506,3 +506,6 @@ Performance/UnfreezeString:
 Performance/UriDefaultParser:
   Description: "Use `URI::DEFAULT_PARSER` instead of `URI::Parser.new`."
   Enabled: true
+
+RSpec/AnyInstance:
+  Enabled: false
