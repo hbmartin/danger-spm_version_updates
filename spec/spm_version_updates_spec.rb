@@ -26,7 +26,7 @@ module Danger
       end
 
       it "Does not report pre-release versions by default" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.2.0-beta.1"),
@@ -40,7 +40,7 @@ module Danger
       end
 
       it "Reports new versions for exact versions when configured" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.1.7"),
@@ -57,7 +57,7 @@ module Danger
       end
 
       it "Reports pre-release versions for exact versions when configured" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.2.0-beta.2"),
@@ -75,7 +75,7 @@ module Danger
       end
 
       it "Reports new versions for up to next major" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.1.7"),
@@ -91,7 +91,7 @@ module Danger
       end
 
       it "Reports pre-release versions for up to next major when configured" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.2.0-beta.2"),
@@ -109,7 +109,7 @@ module Danger
       end
 
       it "Does not report pre-release versions for up to next major" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.2.0-beta.2"),
@@ -122,7 +122,7 @@ module Danger
       end
 
       it "Does not report new versions for up to next major when next version is major" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("13.0.0"),
@@ -134,7 +134,7 @@ module Danger
       end
 
       it "Does report new versions for up to next major when next version is major and configured" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("13.0.0"),
@@ -147,7 +147,7 @@ module Danger
       end
 
       it "Reports new versions for ranges" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("13.0.0"),
             Semantic::Version.new("12.1.6"),
@@ -164,7 +164,7 @@ module Danger
       end
 
       it "Reports new versions for branches" do
-        allow(@my_plugin).to receive(:git_branch_last_commit)
+        allow(Git).to receive(:branch_last_commit)
           .and_return "d658f302f56abfd7a163e3b5f44de39b780a64c2"
 
         @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/Branch.xcodeproj")
@@ -191,7 +191,7 @@ module Danger
       end
 
       it "Reports new versions for both possible Package.resolved locations" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.1.7"),
@@ -207,14 +207,20 @@ module Danger
         )
       end
 
+      it "Raises error when xcodeproj_path is nil" do
+        expect {
+          @my_plugin.check_for_updates(nil)
+        }.to raise_error(Xcode::XcodeprojPathMustBeSet)
+      end
+
       it "Raises error when no Packages.resolved are present" do
         expect {
           @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoPackagesResolved.xcodeproj")
-        }.to raise_error(CouldNotFindResolvedFile)
+        }.to raise_error(Xcode::CouldNotFindResolvedFile)
       end
 
       it "Reports new versions with ssh and/or .git URLs" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.1.7"),
@@ -230,7 +236,7 @@ module Danger
       end
 
       it "Does not report new versions when repo was ignored" do
-        allow(@my_plugin).to receive(:git_versions)
+        allow(Git).to receive(:version_tags)
           .and_return [
             Semantic::Version.new("12.1.6"),
             Semantic::Version.new("12.1.7"),
