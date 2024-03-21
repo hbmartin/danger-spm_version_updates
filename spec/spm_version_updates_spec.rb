@@ -283,6 +283,21 @@ a1fd1d464a6e5a76136d23b8e66a5a8c422dbeea	refs/pull/3/merge
           "5e5c3f78ff25e7678ed7d3b25d7c60eeeee47e25"
         )
       end
+
+      it "Reports new versions for version=1 Package.resolved" do
+        allow(Git).to receive(:version_tags)
+          .and_return [
+            Semantic::Version.new("3.1.3"),
+          ]
+
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/PackageV1.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq(
+          [
+            "Newer version of gonzalezreal/NetworkImage: 3.1.3",
+          ]
+        )
+      end
     end
   end
 end

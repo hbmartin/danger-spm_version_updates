@@ -30,10 +30,14 @@ module Xcode
     raise(CouldNotFindResolvedFile) if resolved_paths.empty?
 
     resolved_versions = resolved_paths.map { |resolved_path|
-      JSON.load_file!(resolved_path)["pins"]
-        .to_h { |pin|
-          [Git.trim_repo_url(pin["location"]), pin["state"]["version"] || pin["state"]["revision"]]
-        }
+      contents = JSON.load_file!(resolved_path)
+      pins = contents["pins"] || contents["object"]["pins"]
+      pins.to_h { |pin|
+        [
+          Git.trim_repo_url(pin["location"] || pin["repositoryURL"]),
+          pin["state"]["version"] || pin["state"]["revision"],
+        ]
+      }
     }
     resolved_versions.reduce(:merge!)
   end
