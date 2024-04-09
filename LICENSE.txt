@@ -1,4 +1,4 @@
-Copyright (c) 2023 Harold Martin <harold.martin@gmail.com>
+Copyright (c) 2023-2024 Harold Martin <harold.martin@gmail.com>
 
 MIT License
 

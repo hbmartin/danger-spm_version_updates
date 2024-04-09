@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 
   # General ruby development
   spec.add_development_dependency("bundler", "~> 2.0")
-  spec.add_development_dependency("rake", "~> 13.0")
+  spec.add_development_dependency("rake", "~> 13.2")
 
   # Testing support
   spec.add_development_dependency("rspec", "~> 3.9")
@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
 
   # Linting code and docs
   spec.add_development_dependency("reek")
-  spec.add_development_dependency("rubocop", "~> 1.62")
+  spec.add_development_dependency("rubocop", "~> 1.63")
   spec.add_development_dependency("rubocop-performance")
   spec.add_development_dependency("rubocop-rake")
   spec.add_development_dependency("rubocop-rspec")

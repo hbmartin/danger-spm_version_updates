@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-spm_version_updates (0.2.0)
+    danger-spm_version_updates (0.2.1)
       danger-plugin-api (~> 1.0)
       semantic (~> 1.6)
       xcodeproj (~> 1.24)
@@ -101,7 +101,7 @@ GEM
     guard-rubocop (1.5.0)
       guard (~> 2.0)
       rubocop (< 2.0)
-    json (2.7.1)
+    json (2.7.2)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -137,7 +137,7 @@ GEM
     public_suffix (5.0.4)
     racc (1.7.3)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.1)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -162,7 +162,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
-    rubocop (1.62.1)
+    rubocop (1.63.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -179,15 +179,18 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.25.1)
       rubocop (~> 1.41)
-    rubocop-performance (1.20.2)
+    rubocop-performance (1.21.0)
       rubocop (>= 1.48.1, < 2.0)
-      rubocop-ast (>= 1.30.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.27.1)
+    rubocop-rspec (2.29.1)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
+      rubocop-rspec_rails (~> 2.28)
+    rubocop-rspec_rails (2.28.2)
+      rubocop (~> 1.40)
     ruby-progressbar (1.13.0)
     sawyer (0.9.2)
       addressable (>= 2.3.5)
@@ -231,10 +234,10 @@ DEPENDENCIES
   guard-rubocop (~> 1.2)
   listen (= 3.0.7)
   pry
-  rake (~> 13.0)
+  rake (~> 13.2)
   reek
   rspec (~> 3.9)
-  rubocop (~> 1.62)
+  rubocop (~> 1.63)
   rubocop-performance
   rubocop-rake
   rubocop-rspec

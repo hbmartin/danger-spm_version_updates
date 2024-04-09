@@ -11,10 +11,10 @@ module Xcode
     raise(XcodeprojPathMustBeSet) if xcodeproj_path.nil? || xcodeproj_path.empty?
 
     project = Xcodeproj::Project.open(xcodeproj_path)
-    project.objects.select { |obj|
-      obj.kind_of?(Xcodeproj::Project::Object::XCRemoteSwiftPackageReference) &&
-        obj.requirement["kind"] != "commit"
-    }
+    project.objects
+      .select { |obj|
+        obj.kind_of?(Xcodeproj::Project::Object::XCRemoteSwiftPackageReference)
+      }
       .to_h { |package|
         [Git.trim_repo_url(package.repositoryURL), package.requirement]
       }

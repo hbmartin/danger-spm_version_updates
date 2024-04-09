@@ -176,6 +176,12 @@ module Danger
         )
       end
 
+      it "Does not report when pinned to commit" do
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/Commit.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq([])
+      end
+
       it "Does not crash or warn when resolved version is missing from xcodeproj" do
         @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoResolvedVersion.xcodeproj")
 
