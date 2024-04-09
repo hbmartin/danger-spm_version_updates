@@ -65,7 +65,7 @@ spm_version_updates.ignore_repos = ["https://github.com/pointfreeco/swift-snapsh
 
 Swift and the Swift logo are trademarks of Apple Inc.
 
-Copyright (c) 2023 Harold Martin
+Copyright (c) 2023-2024 Harold Martin
 
 MIT License
 

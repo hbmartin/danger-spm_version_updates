@@ -72,6 +72,8 @@ module Danger
           warn_for_new_versions(:minor, available_versions, name, resolved_version)
         elsif kind == "versionRange"
           warn_for_new_versions_range(available_versions, name, requirement, resolved_version)
+        else
+          $stderr.puts("Not processing dependency rule '#{kind}' for #{name} (#{repository_url})")
         end
       }
     end
