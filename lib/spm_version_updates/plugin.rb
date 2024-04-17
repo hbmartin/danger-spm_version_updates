@@ -55,9 +55,7 @@ module Danger
         end
 
         if kind == "branch"
-          branch = requirement["branch"]
-          last_commit = Git.branch_last_commit(repository_url, branch)
-          warn("Newer commit available for #{name} (#{branch}): #{last_commit}") unless last_commit == resolved_version
+          warn_for_branch(requirement["branch"], name, repository_url, resolved_version)
           next
         end
 
@@ -80,6 +78,11 @@ module Danger
 
     private
 
+    def warn_for_branch(branch, name, repository_url, resolved_version)
+      last_commit = Git.branch_last_commit(repository_url, branch)
+      warn("Newer commit available for #{name} (#{branch}): #{last_commit}") unless last_commit == resolved_version
+    end
+
     def warn_for_new_versions_exact(available_versions, name, resolved_version)
       newest_version = available_versions.find { |version|
         report_pre_releases ? true : version.pre.nil?
@@ -92,7 +95,12 @@ Newer version of #{name}: #{newest_version} (but this package is set to exact ve
     end
 
     def warn_for_new_versions_range(available_versions, name, requirement, resolved_version)
-      max_version = Semantic::Version.new(requirement["maximumVersion"])
+      begin
+        max_version = Semantic::Version.new(requirement["maximumVersion"])
+      rescue ArgumentError => e
+        $stderr.puts("Unable to extract semver from #{requirement} for #{name} (#{e})")
+        return
+      end
       if available_versions.first < max_version
         warn("Newer version of #{name}: #{available_versions.first}")
       else
@@ -109,7 +117,12 @@ Newest version of #{name}: #{available_versions.first} (but this package is conf
     end
 
     def warn_for_new_versions(major_or_minor, available_versions, name, resolved_version_string)
-      resolved_version = Semantic::Version.new(resolved_version_string)
+      begin
+        resolved_version = Semantic::Version.new(resolved_version_string)
+      rescue ArgumentError => e
+        $stderr.puts("Unable to extract semver from #{resolved_version_string} for #{name} (#{e})")
+        return
+      end
       newest_meeting_reqs = available_versions.find { |version|
         (version.send(major_or_minor) == resolved_version.send(major_or_minor)) && (report_pre_releases ? true : version.pre.nil?)
       }

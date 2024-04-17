@@ -182,6 +182,12 @@ module Danger
         expect(@dangerfile.status_report[:warnings]).to eq([])
       end
 
+      it "Up to next major but null version" do
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/PackageV1Commit.xcodeproj")
+
+        expect(@dangerfile.status_report[:warnings]).to eq([])
+      end
+
       it "Does not crash or warn when resolved version is missing from xcodeproj" do
         @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoResolvedVersion.xcodeproj")
 
