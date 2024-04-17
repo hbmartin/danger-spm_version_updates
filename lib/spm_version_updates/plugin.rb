@@ -78,6 +78,11 @@ module Danger
 
     private
 
+    # Warns if the branch has a newer commit than the resolved version.
+    # @param branch [String] the branch name
+    # @param name [String] the dependency name
+    # @param repository_url [String] the Git repository URL
+    # @param resolved_version [String] the currently resolved version of the branch
     def warn_for_branch(branch, name, repository_url, resolved_version)
       last_commit = Git.branch_last_commit(repository_url, branch)
       warn("Newer commit available for #{name} (#{branch}): #{last_commit}") unless last_commit == resolved_version
