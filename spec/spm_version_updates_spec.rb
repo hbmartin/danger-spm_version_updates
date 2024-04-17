@@ -182,13 +182,26 @@ module Danger
         expect(@dangerfile.status_report[:warnings]).to eq([])
       end
 
+      it "Prints to stderr when resolved version is unexpectedly null" do
+        expect {
+          @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/PackageV1Commit.xcodeproj")
+        }.to output(
+          %r{Unable to extract semver from 12f19662426d0434d6c330c6974d53e2eb10ecd9 for AliSoftware/OHHTTPStubs.*}
+        ).to_stderr
+      end
+
+      it "Does not fail when resolved version is unexpectedly null" do
+        @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/PackageV1Commit.xcodeproj")
+        expect(@dangerfile.status_report[:warnings]).to eq([])
+      end
+
       it "Does not crash or warn when resolved version is missing from xcodeproj" do
         @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoResolvedVersion.xcodeproj")
 
         expect(@dangerfile.status_report[:warnings]).to eq([])
       end
 
-      it "Does print to stderr when resolved version is missing from xcodeproj" do
+      it "Prints to stderr when resolved version is missing from xcodeproj" do
         expect {
           @my_plugin.check_for_updates("#{File.dirname(__FILE__)}/support/fixtures/NoResolvedVersion.xcodeproj")
         }.to output(
@@ -288,6 +301,14 @@ a1fd1d464a6e5a76136d23b8e66a5a8c422dbeea	refs/pull/3/merge
         expect(Git.branch_last_commit("https://github.com/hbmartin/danger-spm_version_updates", "main")).to eq(
           "5e5c3f78ff25e7678ed7d3b25d7c60eeeee47e25"
         )
+      end
+
+      it "Extracts repo name from URL" do
+        expect(Git.repo_name("https://github.com/hbmartin/danger-spm_version_updates")).to eq("hbmartin/danger-spm_version_updates")
+      end
+
+      it "Returns repo name from param when not URL" do
+        expect(Git.repo_name("hbmartin/danger-spm_version_updates")).to eq("hbmartin/danger-spm_version_updates")
       end
 
       it "Reports new versions for version=1 Package.resolved" do

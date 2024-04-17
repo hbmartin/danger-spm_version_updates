@@ -13,7 +13,6 @@ module Git
   # @return [String]
   def self.repo_name(repo_url)
     match = repo_url.match(%r{([\w-]+/[\w-]+)(.git)?$})
-
     if match
       match[1] || match[0]
     else
@@ -36,8 +35,7 @@ module Git
           nil
         end
       }
-    versions.sort!
-    versions.reverse!
+    versions.sort!.reverse!
     versions
   end
 
